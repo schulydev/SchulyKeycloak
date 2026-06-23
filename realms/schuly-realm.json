@@ -9,6 +9,7 @@
   "loginWithEmailAllowed": true,
   "sslRequired": "external",
   "passwordPolicy": "passwordBlacklist(rockyou.txt) and notUsername(undefined) and notEmail(undefined) and notContainsUsername(undefined) and length(8)",
+  "browserFlow": "browser-2fa",
   "roles": {
     "realm": [
       { "name": "Student", "description": "Schuly student" },
@@ -59,6 +60,64 @@
       "webOrigins": ["+"],
       "attributes": { "pkce.code.challenge.method": "S256" },
       "defaultClientScopes": ["groups", "email", "profile", "roles", "web-origins"]
+    }
+  ],
+  "authenticationFlows": [
+    {
+      "alias": "browser-2fa",
+      "description": "Browser flow with mandatory 2FA: login with OTP or passkey, set up OTP if neither exists",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        { "authenticator": "auth-cookie", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 10, "userSetupAllowed": false },
+        { "authenticator": "identity-provider-redirector", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 20, "userSetupAllowed": false },
+        { "authenticatorFlow": true, "requirement": "ALTERNATIVE", "priority": 30, "flowAlias": "browser-2fa-forms", "userSetupAllowed": false }
+      ]
+    },
+    {
+      "alias": "browser-2fa-forms",
+      "description": "Username/password then mandatory MFA",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        { "authenticator": "auth-username-password-form", "authenticatorFlow": false, "requirement": "REQUIRED", "priority": 10, "userSetupAllowed": false },
+        { "authenticatorFlow": true, "requirement": "REQUIRED", "priority": 20, "flowAlias": "browser-2fa-mfa", "userSetupAllowed": false }
+      ]
+    },
+    {
+      "alias": "browser-2fa-mfa",
+      "description": "Authenticate with an existing 2FA credential, or register one",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        { "authenticatorFlow": true, "requirement": "ALTERNATIVE", "priority": 10, "flowAlias": "browser-2fa-authenticate", "userSetupAllowed": false },
+        { "authenticatorFlow": true, "requirement": "ALTERNATIVE", "priority": 20, "flowAlias": "browser-2fa-register", "userSetupAllowed": false }
+      ]
+    },
+    {
+      "alias": "browser-2fa-authenticate",
+      "description": "User has OTP or a passkey: let them use either",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        { "authenticator": "conditional-user-configured", "authenticatorFlow": false, "requirement": "REQUIRED", "priority": 10, "userSetupAllowed": false },
+        { "authenticator": "auth-otp-form", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 20, "userSetupAllowed": false },
+        { "authenticator": "webauthn-authenticator-passwordless", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 30, "userSetupAllowed": false }
+      ]
+    },
+    {
+      "alias": "browser-2fa-register",
+      "description": "User has no 2FA yet: force OTP enrollment",
+      "providerId": "basic-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        { "authenticator": "auth-otp-form", "authenticatorFlow": false, "requirement": "REQUIRED", "priority": 10, "userSetupAllowed": false }
+      ]
     }
   ]
 }
