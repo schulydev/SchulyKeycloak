@@ -8,6 +8,7 @@
   "rememberMe": true,
   "loginWithEmailAllowed": true,
   "sslRequired": "external",
+  "passwordPolicy": "passwordBlacklist(rockyou.txt) and notUsername(undefined) and notEmail(undefined) and notContainsUsername(undefined) and length(8)",
   "roles": {
     "realm": [
       { "name": "Student", "description": "Schuly student" },
