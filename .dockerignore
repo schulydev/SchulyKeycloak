@@ -1,0 +1,7 @@
+keycloakify/node_modules
+keycloakify/dist
+keycloakify/dist_keycloak
+.github
+compose.dev.yml
+scripts
+README.md

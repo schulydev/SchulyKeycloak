@@ -1,0 +1,63 @@
+{
+  "realm": "schuly",
+  "enabled": true,
+  "displayName": "Schuly",
+  "loginTheme": "schuly",
+  "registrationAllowed": false,
+  "resetPasswordAllowed": true,
+  "rememberMe": true,
+  "loginWithEmailAllowed": true,
+  "sslRequired": "external",
+  "roles": {
+    "realm": [
+      { "name": "Student", "description": "Schuly student" },
+      { "name": "Teacher", "description": "Schuly teacher" },
+      { "name": "Administrator", "description": "Schuly administrator" }
+    ]
+  },
+  "groups": [
+    { "name": "Student", "realmRoles": ["Student"] },
+    { "name": "Teacher", "realmRoles": ["Teacher"] },
+    { "name": "Administrator", "realmRoles": ["Administrator"] }
+  ],
+  "defaultDefaultClientScopes": ["groups"],
+  "clientScopes": [
+    {
+      "name": "groups",
+      "protocol": "openid-connect",
+      "description": "Adds the user's group memberships as a `groups` claim.",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" },
+      "protocolMappers": [
+        {
+          "name": "groups",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "claim.name": "groups",
+            "full.path": "false",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true"
+          }
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "schuly-app",
+      "name": "Schuly App",
+      "description": "Public OIDC client for the Schuly mobile app (PKCE).",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "protocol": "openid-connect",
+      "redirectUris": ["schulytest://callback", "schuly://callback"],
+      "webOrigins": ["+"],
+      "attributes": { "pkce.code.challenge.method": "S256" },
+      "defaultClientScopes": ["groups", "email", "profile", "roles", "web-origins"]
+    }
+  ]
+}
