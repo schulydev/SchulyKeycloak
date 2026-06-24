@@ -90,26 +90,31 @@ export function Template(props: {
             </div>
 
             {/* Main content (form) — right on desktop */}
-            <div className="flex flex-col gap-4 px-4 py-0 pb-6 lg:p-6 lg:md:p-10 lg:pt-10 min-h-screen lg:min-h-0 order-2">
+            <div className="flex flex-col gap-0 lg:gap-4 px-0 py-0 pb-6 lg:p-6 lg:md:p-10 lg:pt-10 min-h-screen lg:min-h-0 order-2">
                 {enabledLanguages.length > 1 && (
                     <div className="absolute top-4 inset-s-4 z-20 flex gap-2">
                         <Languages />
                     </div>
                 )}
 
-                <div className="flex flex-1 items-center justify-center flex-col">
+                {/* Mobile-only branded hero (desktop uses the side panel). */}
+                <div className="lg:hidden relative overflow-hidden bg-primary dark:bg-white/5 px-6 pt-16 pb-20 text-center">
+                    <div className="absolute right-0 top-0 w-40 opacity-70">
+                        <img src={shape} alt="" />
+                    </div>
+                    <div className="relative z-10 flex flex-col items-center gap-3">
+                        <img src={companylogo} alt="Logo" className="h-16 w-16" />
+                        <span className="text-2xl font-semibold text-white">{APP_NAME}</span>
+                        <p className="max-w-xs text-sm text-white/70">{msg("welcomeMessage")}</p>
+                    </div>
+                </div>
+
+                <div className="flex flex-1 items-start lg:items-center justify-center flex-col -mt-8 lg:mt-0 px-4 lg:px-0">
                     <div className="w-full max-w-md mx-auto">
 
-                        <Card className="shadow-none bg-transparent lg:bg-card border-0 lg:rounded-lg lg:border lg:shadow-sm rounded-t-2xl">
+                        <Card className="bg-card border shadow-sm rounded-2xl lg:rounded-lg">
                             <CardHeader>
                                 <CardTitle>
-                                    {/* Mobile header with logo */}
-                                    <div className="lg:hidden relative mt-8">
-                                        <div className="mb-6 flex items-center justify-center gap-3 text-center">
-                                            <img src={companylogo} alt="Logo" className="h-10 w-10" />
-                                            <span className="text-2xl font-semibold">{APP_NAME}</span>
-                                        </div>
-                                    </div>
                                     {(() => {
                                         const node = !(
                                             auth !== undefined &&
