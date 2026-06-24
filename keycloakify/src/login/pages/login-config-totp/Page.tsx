@@ -6,8 +6,60 @@ import { useI18n } from "@/login/i18n";
 import { useKcContext } from "@/login/KcContext";
 import { useKcClsx } from "@keycloakify/login-ui/useKcClsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
+import { useEffect, useState } from "react";
 import { assert } from "tsafe/assert";
 import { Template } from "../../components/Template";
+
+type KcContextLoginConfigTotp = Extract<
+    ReturnType<typeof useKcContext>["kcContext"],
+    { pageId: "login-config-totp.ftl" }
+>;
+
+/**
+ * Build the `otpauth://` URI that authenticator apps understand. On mobile this
+ * lets the OS hand off to the installed authenticator instead of forcing the
+ * user to scan a QR code shown on the same device. The secret is the Base32
+ * value Keycloak already renders (`totpSecretEncoded`), just stripped of the
+ * grouping whitespace.
+ */
+function buildOtpAuthUri(kcContext: KcContextLoginConfigTotp): string {
+    const { totp, realm, auth } = kcContext;
+
+    const secret = totp.totpSecretEncoded.replace(/\s/g, "");
+    const issuer = realm.displayName || realm.name || "";
+    const accountName = auth?.attemptedUsername || issuer;
+
+    const label = `${encodeURIComponent(issuer)}:${encodeURIComponent(accountName)}`;
+
+    const params = new URLSearchParams();
+    params.set("secret", secret);
+    if (issuer) {
+        params.set("issuer", issuer);
+    }
+    params.set("algorithm", totp.policy.getAlgorithmKey());
+    params.set("digits", String(totp.policy.digits));
+    if (totp.policy.type === "totp") {
+        params.set("period", String(totp.policy.period));
+    } else {
+        params.set("counter", String(totp.policy.initialCounter));
+    }
+
+    return `otpauth://${totp.policy.type}/${label}?${params.toString()}`;
+}
+
+function useIsMobile(): boolean {
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        setIsMobile(
+            /Android|iPhone|iPad|iPod|Mobile|webOS|BlackBerry|Opera Mini|IEMobile/i.test(
+                navigator.userAgent
+            )
+        );
+    }, []);
+
+    return isMobile;
+}
 
 export function Page() {
     const { kcContext } = useKcContext();
@@ -16,6 +68,9 @@ export function Page() {
     const { msg, msgStr, advancedMsg } = useI18n();
 
     const { kcClsx } = useKcClsx();
+
+    const isMobile = useIsMobile();
+    const otpAuthUri = buildOtpAuthUri(kcContext);
 
     return (
         <Template
@@ -110,7 +165,7 @@ export function Page() {
                                                 {kcContext.totp.policy.type === "totp"
                                                     ? kcContext.totp.policy.period
                                                     : kcContext.totp.policy
-                                                        .initialCounter}
+                                                          .initialCounter}
                                             </span>
                                         </div>
                                     </div>
@@ -120,6 +175,24 @@ export function Page() {
                     ) : (
                         <li className="space-y-2">
                             <p>{msg("loginTotpStep2")}</p>
+
+                            {isMobile && (
+                                <div className="space-y-1">
+                                    <Button asChild className="w-full">
+                                        <a
+                                            href={otpAuthUri}
+                                            id="kc-totp-add-to-app"
+                                            rel="nofollow"
+                                        >
+                                            {msg("loginTotpAddToApp")}
+                                        </a>
+                                    </Button>
+                                    <p className="text-xs text-muted-foreground text-center">
+                                        {msg("loginTotpScanWithOtherDevice")}
+                                    </p>
+                                </div>
+                            )}
+
                             <img
                                 id="kc-totp-secret-qr-code"
                                 className="mt-2 dark:mt-0"
