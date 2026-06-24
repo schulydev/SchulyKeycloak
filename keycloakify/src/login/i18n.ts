@@ -16,6 +16,8 @@ const { I18nProvider, useI18n } = i18nBuilder
             "organization.pickPlaceholder": "Pick an organization to continue",
             "identity-provider-login-last-used": "Last used",
             attemptedUsernameLoggingInAs: "Logging in as",
+            loginTotpAddToApp: "Add to authenticator app",
+            loginTotpScanWithOtherDevice: "or scan the code with another device"
         },
         ar: {
             welcomeMessage: "مرحبًا بك في Acme inc - بوابتك إلى التخطيط والتنظيم السلس.",
@@ -28,6 +30,8 @@ const { I18nProvider, useI18n } = i18nBuilder
             "organization.pickPlaceholder": "اختر مؤسسة للمتابعة",
             "identity-provider-login-last-used": "آخر استخدام",
             attemptedUsernameLoggingInAs: "تسجيل الدخول كـ",
+            loginTotpAddToApp: "إضافة إلى تطبيق المصادقة",
+            loginTotpScanWithOtherDevice: "أو امسح الرمز باستخدام جهاز آخر"
         },
         fr: {
             welcomeMessage:
@@ -42,6 +46,8 @@ const { I18nProvider, useI18n } = i18nBuilder
                 "Sélectionnez une organisation pour continuer",
             "identity-provider-login-last-used": "Dernière utilisation",
             attemptedUsernameLoggingInAs: "Se connecter en tant que",
+            loginTotpAddToApp: "Ajouter à l'application d'authentification",
+            loginTotpScanWithOtherDevice: "ou scannez le code avec un autre appareil"
         }
     })
     .build();
