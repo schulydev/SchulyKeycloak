@@ -34,6 +34,13 @@ export function SocialProviders() {
             id="kc-social-providers"
             className={kcClsx("kcFormSocialAccountSectionClass")}
         >
+            <div className="py-4 flex items-center text-sm">
+                <div className="mt-px flex-auto border-t"></div>
+                <div className="text-muted-foreground mx-2">
+                    {msg("identity-provider-login-label")}
+                </div>
+                <div className="mt-px flex-auto border-t"></div>
+            </div>
             <ul
                 className={`grid gap-3 ${kcContext.social.providers.length > 1 ? "sm:grid-cols-2" : ""}`}
             >
@@ -98,13 +105,6 @@ export function SocialProviders() {
                     </li>
                 ))}
             </ul>
-            <div className="py-4 flex items-center text-sm">
-                <div className="mt-px flex-auto border-t"></div>
-                <div className="text-muted-foreground mx-2">
-                    {msg("identity-provider-login-label")}
-                </div>
-                <div className="mt-px flex-auto border-t"></div>
-            </div>
         </div>
     );
 }
