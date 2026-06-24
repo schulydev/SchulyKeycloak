@@ -6,7 +6,7 @@ const { I18nProvider, useI18n } = i18nBuilder
     .withThemeName<ThemeName>()
     .withCustomTranslations({
         en: {
-            welcomeMessage: "Universal AI chat across every model.",
+            welcomeMessage: "Your school portal in one app - grades, timetable, agenda and absences.",
             loginAccountTitle: "Login to your account",
             registerTitle: "Register a new account",
             email: "Email",
@@ -20,7 +20,7 @@ const { I18nProvider, useI18n } = i18nBuilder
             loginTotpScanWithOtherDevice: "or scan the code with another device"
         },
         ar: {
-            welcomeMessage: "مرحبًا بك في Acme inc - بوابتك إلى التخطيط والتنظيم السلس.",
+            welcomeMessage: "بوابة مدرستك في تطبيق واحد - الدرجات والجدول الزمني والأجندة والغيابات.",
             loginAccountTitle: "تسجيل الدخول  إلى حسابك",
             registerTitle: "تسجيل حساب جديد",
             email: "البريد الإلكتروني",
@@ -35,7 +35,7 @@ const { I18nProvider, useI18n } = i18nBuilder
         },
         fr: {
             welcomeMessage:
-                "Bienvenue sur Acme inc Votre passerelle vers une planification et une organisation sans faille.",
+                "Votre portail scolaire dans une seule application - notes, emploi du temps, agenda et absences.",
             loginAccountTitle: "Connectez-vous à votre compte",
             registerTitle: "Créer    un nouveau compte",
             email: "E-mail",
