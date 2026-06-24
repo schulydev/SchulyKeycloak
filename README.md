@@ -1,36 +1,54 @@
 # SchulyKeycloak
 
-Schuly's own [Keycloak](https://www.keycloak.org/) image — the production identity provider
-for Schuly. A release builds and pushes a multi-arch container to
+[![Release](https://img.shields.io/github/v/release/schulydev/SchulyKeycloak)](https://github.com/schulydev/SchulyKeycloak/releases)
+[![Build & publish](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml/badge.svg)](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml)
+
+Schuly's own [Keycloak](https://www.keycloak.org/) image — the production identity
+provider for Schuly. It bakes a [Keycloakify](https://keycloakify.dev) login theme, a
+leaked-password blacklist (rockyou), and the `schuly` realm into an **optimized**
+Keycloak 26.6 build, then ships as a multi-arch container at
 `ghcr.io/schulydev/schulykeycloak`.
 
-The recipe follows the `keycloak/` setup in
-[Polyglot-App](https://github.com/PianoNic/Polyglot-App): a Keycloakify login theme baked in
-as a provider jar, a leaked-password blacklist, and the Schuly realm baked in.
+## Quickstart (local)
 
-## Layout
-- `Dockerfile` — multi-stage: theme jar + rockyou blacklist + optimized keycloak 26.6.
-- `keycloakify/` — branded login theme (Keycloakify), ported from Polyglot-App.
-- `realms/schuly-realm.json` — the `schuly` realm, imported on first start.
-- `compose.dev.yml` — local dev (`start-dev --import-realm`, admin/admin on :8080).
-- `scripts/keycloak-export.{sh,ps1,bat}` — round-trip realm edits back into `realms/`.
-- `.github/workflows/docker-publish-release.yaml` — build + push on release.
-- `application.properties` — version, synced from the release tag by CI.
+```sh
+docker compose -f compose.dev.yml up --build
+```
 
-## Develop locally
-    docker compose -f compose.dev.yml up --build
-    # http://localhost:8080  (admin / admin); realm `schuly` imported automatically
-Edit the realm in the console, then snapshot it back: `./scripts/keycloak-export.sh`.
+Opens Keycloak at <http://localhost:8080> (admin `admin` / `admin`) with the `schuly`
+realm imported automatically.
 
-## Production
-    docker run -p 8080:8080 \
-      -e KC_DB_URL=jdbc:postgresql://db:5432/keycloak \
-      -e KC_DB_USERNAME=keycloak -e KC_DB_PASSWORD=... \
-      -e KC_HOSTNAME=https://auth.schuly.dev \
-      -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=... \
-      ghcr.io/schulydev/schulykeycloak:latest
+## Quickstart (production)
 
-## Release
-Cut a GitHub release; the workflow syncs `application.properties` to the tag and pushes
-`:<semver>` (+ `:latest`, `:<major>`, `:<major>.<minor>`). Needs repo secret `MAIN_PUSH_TOKEN`
-(and optionally `DOCKERHUB_USERNAME` / `DOCKERHUB_TOKEN`).
+```sh
+docker run -p 8080:8080 \
+  -e KC_DB_URL=jdbc:postgresql://db:5432/keycloak \
+  -e KC_DB_USERNAME=keycloak -e KC_DB_PASSWORD=... \
+  -e KC_HOSTNAME=https://auth.schuly.dev \
+  -e KC_PROXY_HEADERS=xforwarded -e KC_HTTP_ENABLED=true \
+  -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=... \
+  ghcr.io/schulydev/schulykeycloak:latest
+```
+
+For the complete stack (Postgres + reverse proxy + TLS) see
+[Self-hosting the full stack](docs/setup/self-hosting.md).
+
+## Documentation
+
+Full docs live in [`docs/`](docs/README.md) (and at
+[docs.schuly.dev](https://docs.schuly.dev)):
+
+| Doc | What it covers |
+|---|---|
+| [Development setup](docs/setup/development.md) | Run the image locally with Docker Compose. |
+| [Self-hosting](docs/setup/self-hosting.md) | Deploy the full stack for production. |
+| [Configuration reference](docs/configuration.md) | Every port, environment variable, and default. |
+| [Architecture](docs/architecture.md) | How the theme, realm, and base image compose. |
+| [Realm management](docs/realm-management.md) | Edit and snapshot the `schuly` realm (incl. 2FA). |
+| [Theme development](docs/theme-development.md) | Work on the Keycloakify login theme. |
+| [Release](docs/setup/release.md) | Cut a release and publish images. |
+| [Troubleshooting](docs/troubleshooting.md) | Symptoms, causes, and fixes. |
+
+## Contributing
+
+Issue → branch → PR → squash-merge. See [Contributing](docs/contributing.md).
