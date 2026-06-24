@@ -153,7 +153,7 @@
   "authenticationFlows": [
     {
       "alias": "browser-2fa",
-      "description": "Browser flow with mandatory 2FA: login with OTP or passkey, set up OTP if neither exists",
+      "description": "Browser flow with mandatory 2FA: log in with a passkey or OTP; new users are forced to register a passkey",
       "providerId": "basic-flow",
       "topLevel": true,
       "builtIn": false,
@@ -165,29 +165,18 @@
     },
     {
       "alias": "browser-2fa-forms",
-      "description": "Username/password then mandatory MFA",
+      "description": "Username/password, then 2FA if the user has a credential",
       "providerId": "basic-flow",
       "topLevel": false,
       "builtIn": false,
       "authenticationExecutions": [
         { "authenticator": "auth-username-password-form", "authenticatorFlow": false, "requirement": "REQUIRED", "priority": 10, "userSetupAllowed": false },
-        { "authenticatorFlow": true, "requirement": "REQUIRED", "priority": 20, "flowAlias": "browser-2fa-mfa", "userSetupAllowed": false }
+        { "authenticatorFlow": true, "requirement": "CONDITIONAL", "priority": 20, "flowAlias": "browser-2fa-mfa", "userSetupAllowed": false }
       ]
     },
     {
       "alias": "browser-2fa-mfa",
-      "description": "Authenticate with an existing 2FA credential, or register one",
-      "providerId": "basic-flow",
-      "topLevel": false,
-      "builtIn": false,
-      "authenticationExecutions": [
-        { "authenticatorFlow": true, "requirement": "ALTERNATIVE", "priority": 10, "flowAlias": "browser-2fa-authenticate", "userSetupAllowed": false },
-        { "authenticatorFlow": true, "requirement": "ALTERNATIVE", "priority": 20, "flowAlias": "browser-2fa-register", "userSetupAllowed": false }
-      ]
-    },
-    {
-      "alias": "browser-2fa-authenticate",
-      "description": "User has OTP or a passkey: let them use either",
+      "description": "If the user has a 2FA credential, authenticate with OTP or a passkey. New users without one are forced to register a passkey via the webauthn-register-passwordless default required action.",
       "providerId": "basic-flow",
       "topLevel": false,
       "builtIn": false,
@@ -196,16 +185,10 @@
         { "authenticator": "auth-otp-form", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 20, "userSetupAllowed": false },
         { "authenticator": "webauthn-authenticator-passwordless", "authenticatorFlow": false, "requirement": "ALTERNATIVE", "priority": 30, "userSetupAllowed": false }
       ]
-    },
-    {
-      "alias": "browser-2fa-register",
-      "description": "User has no 2FA yet: force OTP enrollment",
-      "providerId": "basic-flow",
-      "topLevel": false,
-      "builtIn": false,
-      "authenticationExecutions": [
-        { "authenticator": "auth-otp-form", "authenticatorFlow": false, "requirement": "REQUIRED", "priority": 10, "userSetupAllowed": false }
-      ]
     }
+  ],
+  "requiredActions": [
+    { "alias": "CONFIGURE_TOTP", "name": "Configure OTP", "providerId": "CONFIGURE_TOTP", "enabled": true, "defaultAction": false, "priority": 10, "config": {} },
+    { "alias": "webauthn-register-passwordless", "name": "Webauthn Register Passwordless", "providerId": "webauthn-register-passwordless", "enabled": true, "defaultAction": true, "priority": 80, "config": {} }
   ]
 }

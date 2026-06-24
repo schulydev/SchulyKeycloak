@@ -6,6 +6,25 @@ start** (`--import-realm`). It carries the Schuly identity config: the `Student`
 `schuly` login theme selection, a 2FA browser flow, and a password policy that
 references the rockyou blacklist (`passwordBlacklist(rockyou.txt)`).
 
+## Two-factor authentication
+
+2FA is mandatory and **passkey-first**. The `browser-2fa` flow runs username +
+password, then a *conditional* MFA step: if the user already has a 2FA credential
+they're challenged for it (passkey or OTP — whichever they have). Users with no 2FA
+credential are forced to register a **passkey** at next login, driven by the
+`webauthn-register-passwordless` required action, which is marked as a *default
+action* so it's applied automatically to every new user (including ones created via
+the admin API).
+
+OTP / authenticator-app (`CONFIGURE_TOTP`) is enabled but **optional** — users can
+add it from the account console, and the login flow accepts it as an alternative to
+a passkey.
+
+> Note: Keycloak cannot present a "choose passkey **or** OTP" screen at first-login
+> enrollment — a passkey can only be enrolled through the required action, and OTP
+> only through the OTP form. The passkey-first model above is the supported way to
+> offer both while keeping enrollment mandatory.
+
 ## Editing the realm
 
 Realm changes are made in the **admin console**, then snapshotted back into the
