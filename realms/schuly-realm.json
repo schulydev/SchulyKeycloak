@@ -3,7 +3,7 @@
   "enabled": true,
   "displayName": "Schuly",
   "loginTheme": "schuly",
-  "registrationAllowed": false,
+  "registrationAllowed": true,
   "resetPasswordAllowed": true,
   "rememberMe": true,
   "loginWithEmailAllowed": true,
@@ -131,6 +131,21 @@
           "config": { "user.attribute": "emailVerified", "claim.name": "email_verified", "jsonType.label": "boolean", "id.token.claim": "true", "access.token.claim": "true", "userinfo.token.claim": "true" }
         }
       ]
+    },
+    {
+      "name": "picture",
+      "protocol": "openid-connect",
+      "description": "OIDC profile picture claim.",
+      "attributes": { "include.in.token.scope": "true", "display.on.consent.screen": "false" },
+      "protocolMappers": [
+        {
+          "name": "picture",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": { "user.attribute": "picture", "claim.name": "picture", "jsonType.label": "String", "id.token.claim": "true", "access.token.claim": "true", "userinfo.token.claim": "true" }
+        }
+      ]
     }
   ],
   "clients": [
@@ -146,7 +161,7 @@
       "redirectUris": ["schulytest://callback", "schuly://callback"],
       "webOrigins": ["+"],
       "attributes": { "pkce.code.challenge.method": "S256" },
-      "defaultClientScopes": ["basic", "groups", "profile", "email"],
+      "defaultClientScopes": ["basic", "groups", "profile", "email", "picture"],
       "optionalClientScopes": ["offline_access"]
     }
   ],
