@@ -3,7 +3,7 @@
 [![Release](https://img.shields.io/github/v/release/schulydev/SchulyKeycloak)](https://github.com/schulydev/SchulyKeycloak/releases)
 [![Build & publish](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml/badge.svg)](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml)
 
-Schuly's own [Keycloak](https://www.keycloak.org/) image — the production identity
+Schuly's own [Keycloak](https://www.keycloak.org/) image - the production identity
 provider for Schuly. It bakes a [Keycloakify](https://keycloakify.dev) login theme, a
 leaked-password blacklist (rockyou), and the `schuly` realm into an **optimized**
 Keycloak 26.6 build, then ships as a multi-arch container at

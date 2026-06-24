@@ -4,7 +4,7 @@ The branded [Keycloakify](https://keycloakify.dev) login theme for Schuly Keyclo
 (React + Vite + Tailwind + shadcn UI). It's built into a Keycloak provider jar at
 image-build time and selected by the `schuly` realm (`loginTheme: "schuly"`).
 
-> Use **bun** as the package manager (a `bun.lock` is committed) — not npm/yarn.
+> Use **bun** as the package manager (a `bun.lock` is committed) - not npm/yarn.
 
 ```sh
 bun install
