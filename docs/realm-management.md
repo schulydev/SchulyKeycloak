@@ -25,6 +25,43 @@ a passkey.
 > only through the OTP form. The passkey-first model above is the supported way to
 > offer both while keeping enrollment mandatory.
 
+### ⚠️ Migration: applying this to a realm that already has users
+
+The MFA step is `CONDITIONAL`, so a user with **no** 2FA credential skips it and
+enforcement falls to the `webauthn-register-passwordless` **default action**. Default
+actions are auto-assigned only to **new** users. On a fresh `--import-realm` deploy
+this is fine (every user is new). But if you apply this flow to an **existing** realm,
+any account that was provisioned earlier and has **never enrolled 2FA** would have no
+credential *and* no required action — and could log in with **password only (MFA
+bypass)**.
+
+Before/at rollout, retroactively assign the required action to every 2FA-less user
+(one-time). Example against a running instance (needs `jq`):
+
+```sh
+REALM=schuly; BASE=http://localhost:8080
+TOK=$(curl -s -X POST "$BASE/realms/master/protocol/openid-connect/token" \
+  -d client_id=admin-cli -d username="$KC_ADMIN" -d password="$KC_PASS" \
+  -d grant_type=password | jq -r .access_token)
+
+curl -s "$BASE/admin/realms/$REALM/users?max=100000" -H "Authorization: Bearer $TOK" \
+  | jq -r '.[].id' | while read -r USERID; do
+    HAS=$(curl -s "$BASE/admin/realms/$REALM/users/$USERID/credentials" \
+      -H "Authorization: Bearer $TOK" \
+      | jq -r '[.[].type] | map(select(. == "otp" or . == "webauthn-passwordless")) | length')
+    if [ "$HAS" = "0" ]; then
+      # fetch the full user rep, add the action (dedup), then PUT it back
+      BODY=$(curl -s "$BASE/admin/realms/$REALM/users/$USERID" -H "Authorization: Bearer $TOK" \
+        | jq '.requiredActions = ((.requiredActions // []) + ["webauthn-register-passwordless"] | unique)')
+      curl -s -X PUT "$BASE/admin/realms/$REALM/users/$USERID" -H "Authorization: Bearer $TOK" \
+        -H "Content-Type: application/json" -d "$BODY"
+      echo "enrolled-action: $USERID"
+    fi
+  done
+```
+
+(Users who already have OTP or a passkey are left untouched and keep using it.)
+
 ## Editing the realm
 
 Realm changes are made in the **admin console**, then snapshotted back into the
