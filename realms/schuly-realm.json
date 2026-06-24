@@ -289,7 +289,7 @@
   "authenticationFlows": [
     {
       "alias": "browser-2fa",
-      "description": "Browser flow with mandatory 2FA: log in with a passkey or OTP; new users are forced to register a passkey",
+      "description": "Browser flow with 2FA: log in with a passkey or OTP if enrolled. Enrollment is offered, not forced, so brokered IdP logins aren't blocked",
       "providerId": "basic-flow",
       "topLevel": true,
       "builtIn": false,
@@ -342,7 +342,7 @@
     },
     {
       "alias": "browser-2fa-mfa",
-      "description": "If the user has a 2FA credential, authenticate with OTP or a passkey. New users without one are forced to register a passkey via the webauthn-register-passwordless default required action.",
+      "description": "If the user has a 2FA credential, authenticate with OTP or a passkey. Passkey enrollment is available but optional (not a forced default action), so external-IdP (brokered) logins aren't blocked.",
       "providerId": "basic-flow",
       "topLevel": false,
       "builtIn": false,
@@ -386,7 +386,7 @@
       "name": "Webauthn Register Passwordless",
       "providerId": "webauthn-register-passwordless",
       "enabled": true,
-      "defaultAction": true,
+      "defaultAction": false,
       "priority": 80,
       "config": {}
     }
