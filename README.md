@@ -1,4 +1,4 @@
-# SchulyKeycloak
+# SchulyKeycloak 
 
 [![Release](https://img.shields.io/github/v/release/schulydev/SchulyKeycloak)](https://github.com/schulydev/SchulyKeycloak/releases)
 [![Build & publish](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml/badge.svg)](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml)
