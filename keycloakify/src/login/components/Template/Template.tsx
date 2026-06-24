@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
 import { Languages } from '../ui/Langauges';
-import companylogo from "./../../assets/img/auth-logo.svg";
+import companylogo from "./../../assets/img/app-icon.png";
 import shape from "./../../assets/img/shape.svg";
 import { useInitializeTemplate } from "./useInitializeTemplate";
 
