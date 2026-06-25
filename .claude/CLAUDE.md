@@ -13,3 +13,7 @@ Schuly's own Keycloak image - the production identity provider (Keycloakify logi
 - No test plans in PRs. PR body is **Summary** + `Closes #<issue>` only.
 - Commit subject: short imperative.
 - PR labels: `bug`, `enhancement`, `feature`, `refactor`, `CI/CD`, `dependencies`, `documentation`.
+
+## Code formatting
+
+**Declaration signatures go on one line** - don't wrap a function / method / arrow parameter list across multiple lines, however long it gets. This applies to *declarations*, not call sites: leave call sites (JSX / component trees, fluent chains), object / array literals, and multi-line conditionals (`if` / `for` / `while`) wrapped as they are.
