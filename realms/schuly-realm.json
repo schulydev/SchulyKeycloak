@@ -8,6 +8,14 @@
   "rememberMe": true,
   "loginWithEmailAllowed": true,
   "sslRequired": "external",
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "failureFactor": 20,
+  "waitIncrementSeconds": 60,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
   "passwordPolicy": "passwordBlacklist(rockyou.txt) and notUsername(undefined) and notEmail(undefined) and notContainsUsername(undefined) and length(8)",
   "browserFlow": "browser-2fa",
   "roles": {
@@ -167,20 +175,6 @@
           "config": {
             "user.attribute": "lastName",
             "claim.name": "family_name",
-            "jsonType.label": "String",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "userinfo.token.claim": "true"
-          }
-        },
-        {
-          "name": "picture",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.attribute": "picture",
-            "claim.name": "picture",
             "jsonType.label": "String",
             "id.token.claim": "true",
             "access.token.claim": "true",
