@@ -62,6 +62,18 @@ export function Page() {
                     return null;
                 }
 
+                const baseUrl = kcContext.client.baseUrl;
+                // App deep link (e.g. schuly://): after a cross-browser action
+                // like email verification there's no flow to resume in this
+                // browser, so send the user straight back to the app.
+                if (baseUrl !== undefined && !/^https?:\/\//i.test(baseUrl)) {
+                    return (
+                        <Button type="button" className="w-full">
+                            <a href={baseUrl}>Return to Schuly</a>
+                        </Button>
+                    );
+                }
+
                 if (kcContext.pageRedirectUri) {
                     return (
                         <Button type="button" className="flex ms-auto">
