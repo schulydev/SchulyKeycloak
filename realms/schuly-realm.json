@@ -4,6 +4,19 @@
   "displayName": "Schuly",
   "loginTheme": "schuly",
   "registrationAllowed": true,
+  "verifyEmail": true,
+  "registrationFlow": "registration",
+  "smtpServer": {
+    "host": "smtp.resend.com",
+    "port": "2465",
+    "ssl": "true",
+    "starttls": "false",
+    "auth": "true",
+    "user": "resend",
+    "password": "${env.SMTP_PASSWORD}",
+    "from": "noreply@schuly.dev",
+    "fromDisplayName": "Schuly"
+  },
   "resetPasswordAllowed": true,
   "rememberMe": true,
   "loginWithEmailAllowed": true,
@@ -363,6 +376,63 @@
           "userSetupAllowed": false
         }
       ]
+    },
+    {
+      "alias": "registration",
+      "description": "Registration flow with reCAPTCHA bot protection",
+      "providerId": "basic-flow",
+      "topLevel": true,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticatorFlow": true,
+          "requirement": "REQUIRED",
+          "priority": 10,
+          "flowAlias": "registration form",
+          "userSetupAllowed": false
+        }
+      ]
+    },
+    {
+      "alias": "registration form",
+      "description": "Registration form",
+      "providerId": "form-flow",
+      "topLevel": false,
+      "builtIn": false,
+      "authenticationExecutions": [
+        {
+          "authenticator": "registration-user-creation",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 20,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticator": "registration-password-action",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 50,
+          "userSetupAllowed": false
+        },
+        {
+          "authenticator": "registration-recaptcha-action",
+          "authenticatorFlow": false,
+          "requirement": "REQUIRED",
+          "priority": 60,
+          "authenticatorConfig": "recaptcha-config",
+          "userSetupAllowed": false
+        }
+      ]
+    }
+  ],
+  "authenticatorConfig": [
+    {
+      "alias": "recaptcha-config",
+      "config": {
+        "site.key": "6LcIwzMtAAAAAFh-D2aUedn6q-dTq8rjljCRlxO6",
+        "secret": "${env.RECAPTCHA_SECRET}",
+        "useRecaptchaNet": "false"
+      }
     }
   ],
   "requiredActions": [
