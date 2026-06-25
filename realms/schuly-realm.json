@@ -431,7 +431,8 @@
       "config": {
         "site.key": "${env.RECAPTCHA_SITE_KEY}",
         "secret": "${env.RECAPTCHA_SECRET}",
-        "useRecaptchaNet": "false"
+        "useRecaptchaNet": "false",
+        "action": "register"
       }
     }
   ],

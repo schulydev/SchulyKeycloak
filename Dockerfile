@@ -38,6 +38,15 @@ FROM quay.io/keycloak/keycloak:26.6
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY --from=blacklist /rockyou-utf8.txt /opt/keycloak/password-blacklists/rockyou.txt
 COPY realms/ /opt/keycloak/data/import/
+COPY scripts/resolve-realm-env.sh /opt/keycloak/resolve-realm-env.sh
+# Keycloak's realm import does NOT substitute ${env.*} (only ${vault.x}, at
+# use-time), so this wrapper resolves the realm's ${env.*} placeholders from the
+# container env before kc.sh runs. Needs the script executable + a writable import dir.
+USER root
+RUN chmod +x /opt/keycloak/resolve-realm-env.sh \
+    && chown -R 1000:0 /opt/keycloak/data/import \
+    && chmod -R ug+rw /opt/keycloak/data/import
+USER 1000
 ENV JAVA_OPTS_APPEND="-Dkeycloak.password.blacklists.path=/opt/keycloak/password-blacklists"
-ENTRYPOINT ["/opt/keycloak/bin/kc.sh"]
+ENTRYPOINT ["/opt/keycloak/resolve-realm-env.sh"]
 CMD ["start", "--optimized", "--import-realm"]
