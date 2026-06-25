@@ -276,7 +276,6 @@
       "clientId": "schuly-app",
       "name": "Schuly App",
       "description": "Public OIDC client for the Schuly mobile app (PKCE).",
-      "baseUrl": "schuly://",
       "enabled": true,
       "publicClient": true,
       "standardFlowEnabled": true,
