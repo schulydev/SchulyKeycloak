@@ -6,6 +6,15 @@
   "registrationAllowed": true,
   "verifyEmail": true,
   "registrationFlow": "registration",
+  "browserSecurityHeaders": {
+    "contentSecurityPolicyReportOnly": "",
+    "xContentTypeOptions": "nosniff",
+    "referrerPolicy": "no-referrer",
+    "xRobotsTag": "none",
+    "xFrameOptions": "SAMEORIGIN",
+    "contentSecurityPolicy": "frame-src 'self' https://www.google.com https://recaptcha.google.com; frame-ancestors 'self'; object-src 'none';",
+    "strictTransportSecurity": "max-age=31536000; includeSubDomains"
+  },
   "smtpServer": {
     "host": "${env.SMTP_HOST}",
     "port": "${env.SMTP_PORT}",
@@ -385,6 +394,7 @@
       "builtIn": false,
       "authenticationExecutions": [
         {
+          "authenticator": "registration-page-form",
           "authenticatorFlow": true,
           "requirement": "REQUIRED",
           "priority": 10,
