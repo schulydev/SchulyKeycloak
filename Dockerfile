@@ -38,6 +38,8 @@ FROM quay.io/keycloak/keycloak:26.6
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY --from=blacklist /rockyou-utf8.txt /opt/keycloak/password-blacklists/rockyou.txt
 COPY realms/ /opt/keycloak/data/import/
+# Branded email theme (schuly/email) — the Keycloakify jar only carries the login theme.
+COPY themes/ /opt/keycloak/themes/
 COPY scripts/resolve-realm-env.sh /opt/keycloak/resolve-realm-env.sh
 # Keycloak's realm import does NOT substitute ${env.*} (only ${vault.x}, at
 # use-time), so this wrapper resolves the realm's ${env.*} placeholders from the
