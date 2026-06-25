@@ -3,5 +3,6 @@ keycloakify/dist
 keycloakify/dist_keycloak
 .github
 compose.dev.yml
-scripts
+scripts/*
+!scripts/resolve-realm-env.sh
 README.md
