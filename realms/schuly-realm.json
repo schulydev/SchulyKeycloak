@@ -429,7 +429,7 @@
     {
       "alias": "recaptcha-config",
       "config": {
-        "site.key": "6LcIwzMtAAAAAFh-D2aUedn6q-dTq8rjljCRlxO6",
+        "site.key": "${env.RECAPTCHA_SITE_KEY}",
         "secret": "${env.RECAPTCHA_SECRET}",
         "useRecaptchaNet": "false"
       }
