@@ -1,11 +1,11 @@
-Verify your email
+Confirm your account
 
-Confirm this address to activate your Schuly account by opening the link below:
+Please open the link below to confirm your email address and finish setting up your Schuly account:
 
 ${link}
 
-This link expires in ${linkExpirationFormatter(linkExpiration)}.
+This link is valid for ${linkExpirationFormatter(linkExpiration)}.
 
-If you didn't create a Schuly account, you can safely ignore this email.
+Didn't sign up for Schuly? You can safely ignore this email.
 
 Schuly

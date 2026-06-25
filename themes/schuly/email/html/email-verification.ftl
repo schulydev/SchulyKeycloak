@@ -8,102 +8,54 @@
     <meta name="supported-color-schemes" content="light dark" />
     <title></title>
     <style type="text/css" rel="stylesheet" media="all">
-    @import url("https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700&display=swap");
-    body { width: 100% !important; height: 100%; margin: 0; -webkit-text-size-adjust: none; }
-    a { color: #2563EB; }
-    a img { border: none; }
-    td { word-break: break-word; }
-    .preheader { display: none !important; visibility: hidden; mso-hide: all; font-size: 1px; line-height: 1px; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; }
-    body, td, th { font-family: "Nunito Sans", Helvetica, Arial, sans-serif; }
-    h1 { margin-top: 0; color: #18181B; font-size: 22px; font-weight: 700; text-align: left; }
-    td, th { font-size: 16px; }
-    p, ul, ol, blockquote { margin: .4em 0 1.1875em; font-size: 16px; line-height: 1.625; }
-    p.sub { font-size: 13px; }
-    .align-center { text-align: center; }
-    .button { background-color: #2563EB; border-top: 12px solid #2563EB; border-right: 20px solid #2563EB; border-bottom: 12px solid #2563EB; border-left: 20px solid #2563EB; display: inline-block; color: #FFF; text-decoration: none; border-radius: 8px; -webkit-text-size-adjust: none; box-sizing: border-box; font-weight: 600; }
-    @media only screen and (max-width: 500px) { .button { width: 100% !important; text-align: center !important; } }
-    body { background-color: #F4F4F5; color: #51545E; }
-    p { color: #51545E; }
-    .email-wrapper { width: 100%; margin: 0; padding: 0; background-color: #F4F4F5; }
-    .email-content { width: 100%; margin: 0; padding: 0; }
-    .email-masthead { padding: 25px 0; text-align: center; }
-    .email-masthead_name { font-size: 18px; font-weight: 700; color: #18181B; text-decoration: none; }
-    .email-body { width: 100%; margin: 0; padding: 0; }
-    .email-body_inner { width: 570px; margin: 0 auto; padding: 0; background-color: #FFFFFF; border: 1px solid #E4E4E7; border-radius: 12px; }
-    .email-footer { width: 570px; margin: 0 auto; padding: 0; text-align: center; }
-    .email-footer p { color: #A1A1AA; }
-    .body-action { width: 100%; margin: 30px auto; padding: 0; text-align: center; }
-    .body-sub { margin-top: 25px; padding-top: 25px; border-top: 1px solid #EAEAEC; }
-    .content-cell { padding: 45px; }
-    @media only screen and (max-width: 600px) { .email-body_inner, .email-footer { width: 100% !important; } }
+    body { margin:0; padding:0; background-color:#ffffff; width:100% !important; -webkit-text-size-adjust:none; }
+    body, td, th { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    a { color:#18181b; }
+    .preheader { display:none !important; visibility:hidden; mso-hide:all; font-size:1px; line-height:1px; max-height:0; max-width:0; opacity:0; overflow:hidden; }
+    h1 { margin:0 0 16px; font-size:34px; line-height:1.15; font-weight:800; color:#18181b; letter-spacing:-0.02em; }
+    p { margin:0 0 28px; font-size:16px; line-height:1.6; color:#52525b; }
+    .btn { background-color:#18181b; border-top:14px solid #18181b; border-bottom:14px solid #18181b; border-left:30px solid #18181b; border-right:30px solid #18181b; display:inline-block; color:#ffffff !important; text-decoration:none; border-radius:9999px; font-size:13px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; box-sizing:border-box; }
+    .footer { font-size:14px; line-height:1.6; color:#a1a1aa; margin:40px 0 0; }
     @media (prefers-color-scheme: dark) {
-      body, .email-body, .email-body_inner, .email-content, .email-wrapper, .email-masthead, .email-footer { background-color: #18181B !important; color: #FFF !important; }
-      .email-body_inner { border-color: #3F3F46 !important; }
-      p, ul, ol, blockquote, h1, span { color: #FFF !important; }
-      .email-masthead_name { color: #FFF !important; }
+      body { background-color:#0a0a0a !important; }
+      h1 { color:#fafafa !important; }
+      p { color:#a1a1aa !important; }
+      .brandname { color:#fafafa !important; }
+      .btn { background-color:#fafafa !important; border-color:#fafafa !important; color:#0a0a0a !important; }
     }
-    :root { color-scheme: light dark; supported-color-schemes: light dark; }
     </style>
     <!--[if mso]>
-    <style type="text/css">.f-fallback { font-family: Arial, sans-serif; }</style>
+    <style type="text/css">.btn { font-family: Arial, sans-serif; }</style>
     <![endif]-->
   </head>
   <body>
-    <span class="preheader">Confirm your email address to activate your Schuly account.</span>
-    <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+    <span class="preheader">Confirm your email to finish setting up your Schuly account.</span>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
       <tr>
-        <td align="center">
-          <table class="email-content" width="100%" cellpadding="0" cellspacing="0" role="presentation">
+        <td align="center" style="padding:56px 24px;">
+          <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:480px;">
             <tr>
-              <td class="email-masthead">
-                <a href="https://schuly.dev" class="f-fallback email-masthead_name">Schuly</a>
-              </td>
-            </tr>
-            <tr>
-              <td class="email-body" width="570" cellpadding="0" cellspacing="0">
-                <table class="email-body_inner" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
+              <td style="padding-bottom:44px;">
+                <table role="presentation" cellpadding="0" cellspacing="0">
                   <tr>
-                    <td class="content-cell">
-                      <div class="f-fallback">
-                        <h1>Verify your email</h1>
-                        <p>Thanks for signing up for Schuly. Confirm your email address below to activate your account and get started.</p>
-                        <table class="body-action" align="center" width="100%" cellpadding="0" cellspacing="0" role="presentation">
-                          <tr>
-                            <td align="center">
-                              <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
-                                <tr>
-                                  <td align="center">
-                                    <a href="${link}" class="f-fallback button" target="_blank">Verify email address</a>
-                                  </td>
-                                </tr>
-                              </table>
-                            </td>
-                          </tr>
-                        </table>
-                        <p>This link expires in ${linkExpirationFormatter(linkExpiration)}. If you didn't create a Schuly account, you can safely ignore this email.</p>
-                        <table class="body-sub" role="presentation">
-                          <tr>
-                            <td>
-                              <p class="f-fallback sub">If the button above doesn't work, copy and paste this URL into your browser:</p>
-                              <p class="f-fallback sub"><a href="${link}">${link}</a></p>
-                            </td>
-                          </tr>
-                        </table>
-                      </div>
+                    <td style="vertical-align:middle;padding-right:10px;">
+                      <img src="https://schuly.dev/assets/app_icon.png" width="40" height="40" alt="Schuly" style="display:block;width:40px;height:40px;border:0;border-radius:9px;" />
                     </td>
+                    <td class="brandname" style="vertical-align:middle;font-size:20px;font-weight:800;color:#18181b;letter-spacing:-0.01em;">Schuly</td>
                   </tr>
                 </table>
+              </td>
+            </tr>
+            <tr><td><h1>Confirm your account</h1></td></tr>
+            <tr><td><p>Please click the button below to confirm your email address and finish setting up your Schuly account. This link is valid for ${linkExpirationFormatter(linkExpiration)}.</p></td></tr>
+            <tr>
+              <td>
+                <a href="${link}" class="btn" target="_blank">Confirm email</a>
               </td>
             </tr>
             <tr>
               <td>
-                <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0" role="presentation">
-                  <tr>
-                    <td class="content-cell" align="center">
-                      <p class="f-fallback sub align-center">Schuly &middot; Your school portal in one app</p>
-                    </td>
-                  </tr>
-                </table>
+                <p class="footer">Didn&rsquo;t sign up for Schuly? You can safely ignore this email.</p>
               </td>
             </tr>
           </table>
