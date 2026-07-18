@@ -13,7 +13,7 @@
     "referrerPolicy": "no-referrer",
     "xRobotsTag": "none",
     "xFrameOptions": "SAMEORIGIN",
-    "contentSecurityPolicy": "frame-src 'self' https://www.google.com https://recaptcha.google.com; frame-ancestors 'self'; object-src 'none';",
+    "contentSecurityPolicy": "frame-src 'self'; frame-ancestors 'self'; object-src 'none';",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
   "smtpServer": {
@@ -389,7 +389,7 @@
     },
     {
       "alias": "registration",
-      "description": "Registration flow with reCAPTCHA bot protection",
+      "description": "Registration flow",
       "providerId": "basic-flow",
       "topLevel": true,
       "builtIn": false,
@@ -424,29 +424,11 @@
           "requirement": "REQUIRED",
           "priority": 50,
           "userSetupAllowed": false
-        },
-        {
-          "authenticator": "registration-recaptcha-action",
-          "authenticatorFlow": false,
-          "requirement": "REQUIRED",
-          "priority": 60,
-          "authenticatorConfig": "recaptcha-config",
-          "userSetupAllowed": false
         }
       ]
     }
   ],
-  "authenticatorConfig": [
-    {
-      "alias": "recaptcha-config",
-      "config": {
-        "site.key": "${env.RECAPTCHA_SITE_KEY}",
-        "secret": "${env.RECAPTCHA_SECRET}",
-        "useRecaptchaNet": "false",
-        "action": "register"
-      }
-    }
-  ],
+  "authenticatorConfig": [],
   "requiredActions": [
     {
       "alias": "CONFIGURE_TOTP",
