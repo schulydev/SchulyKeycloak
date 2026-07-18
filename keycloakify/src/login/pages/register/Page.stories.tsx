@@ -176,29 +176,6 @@ export const WithEmailAsUsername: Story = {
     }
 };
 
-export const WithRecaptcha: Story = {
-    args: {
-        kcContext: {
-            scripts: ["https://www.google.com/recaptcha/api.js?hl=en"],
-            recaptchaRequired: true,
-            recaptchaSiteKey: "6LfQHvApAAAAAE73SYTd5vS0lB1Xr7zdiQ-6iBVa"
-        }
-    }
-};
-
-export const WithRecaptchaFrench: Story = {
-    args: {
-        kcContext: {
-            locale: {
-                currentLanguageTag: "fr"
-            },
-            scripts: ["https://www.google.com/recaptcha/api.js?hl=fr"],
-            recaptchaRequired: true,
-            recaptchaSiteKey: "6LfQHvApAAAAAE73SYTd5vS0lB1Xr7zdiQ-6iBVa"
-        }
-    }
-};
-
 export const WithPasswordMinLength8: Story = {
     args: {
         kcContext: {

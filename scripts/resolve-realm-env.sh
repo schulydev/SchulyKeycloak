@@ -3,8 +3,8 @@
 # environment BEFORE Keycloak imports them. Keycloak's realm import does not
 # substitute environment variables itself (only ${vault.x}, at use-time), so the
 # committed realm keeps clean ${env.*} placeholders and this script fills them in
-# at startup from the values passed to the container (e.g. SMTP creds, reCAPTCHA
-# keys). Non-env placeholders like ${username}/${email} are left untouched.
+# at startup from the values passed to the container (e.g. SMTP creds).
+# Non-env placeholders like ${username}/${email} are left untouched.
 set -euo pipefail
 
 import_dir="/opt/keycloak/data/import"
