@@ -5,7 +5,7 @@
   "loginTheme": "schuly",
   "emailTheme": "schuly",
   "registrationAllowed": true,
-  "verifyEmail": true,
+  "verifyEmail": false,
   "registrationFlow": "registration",
   "browserSecurityHeaders": {
     "contentSecurityPolicyReportOnly": "",
@@ -474,6 +474,15 @@
       "enabled": true,
       "defaultAction": false,
       "priority": 50,
+      "config": {}
+    },
+    {
+      "alias": "VERIFY_EMAIL_CODE",
+      "name": "Verify Email (code)",
+      "providerId": "VERIFY_EMAIL_CODE",
+      "enabled": true,
+      "defaultAction": true,
+      "priority": 55,
       "config": {}
     },
     {
