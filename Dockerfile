@@ -24,16 +24,26 @@ RUN curl -fsSL -o /rockyou.tar.gz \
  && tar -xzf /rockyou.tar.gz -C / \
  && iconv -f utf-8 -t utf-8 -c /rockyou.txt -o /rockyou-utf8.txt
 
-# ---- Stage 3: optimized Keycloak builder -------------------------------------
+# ---- Stage 3: build the custom email-code required-action SPI -----------------
+FROM maven:3.9-eclipse-temurin-17 AS spi
+WORKDIR /spi
+COPY spi/pom.xml .
+RUN mvn -q -B dependency:go-offline
+COPY spi/src ./src
+RUN mvn -q -B package
+
+# ---- Stage 4: optimized Keycloak builder -------------------------------------
 FROM quay.io/keycloak/keycloak:26.6 AS builder
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
 COPY --from=theme /build/dist_keycloak/keycloak-theme-for-kc-all-other-versions.jar \
      /opt/keycloak/providers/schuly-keycloak-theme.jar
+COPY --from=spi /spi/target/schuly-email-code.jar \
+     /opt/keycloak/providers/schuly-email-code.jar
 RUN /opt/keycloak/bin/kc.sh build
 
-# ---- Stage 4: final runtime image --------------------------------------------
+# ---- Stage 5: final runtime image --------------------------------------------
 FROM quay.io/keycloak/keycloak:26.6
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY --from=blacklist /rockyou-utf8.txt /opt/keycloak/password-blacklists/rockyou.txt
