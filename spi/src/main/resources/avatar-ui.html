@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+<title>Profile picture &middot; Schuly</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: #0a0a0a; color: #fafafa; padding: 24px;
+  }
+  .card {
+    width: 100%; max-width: 420px; background: #131313; border: 1px solid #262626;
+    border-radius: 16px; padding: 28px; text-align: center;
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  p.sub { color: #a3a3a3; font-size: 14px; margin: 0 0 24px; }
+  .avatar {
+    width: 128px; height: 128px; border-radius: 50%; object-fit: cover;
+    background: #1f1f1f; border: 1px solid #333; margin: 0 auto 20px; display: block;
+  }
+  .avatar.placeholder { display: flex; align-items: center; justify-content: center; color: #555; font-size: 40px; }
+  button, label.btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    width: 100%; padding: 12px 16px; border-radius: 10px; border: 1px solid #333;
+    font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 10px; background: #1c1c1c; color: #fafafa;
+  }
+  button.primary { background: #fafafa; color: #0a0a0a; border-color: #fafafa; }
+  button.danger { color: #f87171; border-color: #7f1d1d; background: transparent; }
+  button:disabled { opacity: .5; cursor: default; }
+  input[type=file] { display: none; }
+  .msg { margin-top: 16px; font-size: 14px; min-height: 20px; }
+  .msg.err { color: #f87171; }
+  .msg.ok { color: #4ade80; }
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Profile picture</h1>
+    <p class="sub">Upload a picture for your Schuly account.</p>
+    <img id="avatar" class="avatar placeholder" alt="avatar"/>
+    <div id="ui" class="hidden">
+      <label class="btn" for="file">Choose a picture</label>
+      <input type="file" id="file" accept="image/png,image/jpeg,image/webp"/>
+      <button id="save" class="primary hidden">Save picture</button>
+      <button id="remove" class="danger hidden">Remove picture</button>
+      <div id="msg" class="msg"></div>
+    </div>
+    <div id="loading" class="msg">Loading&hellip;</div>
+  </div>
+
+<script>
+(function () {
+  var REALM_URL = "${realmUrl}";       // e.g. http://host/realms/schuly
+  var CLIENT_ID = "${clientId}";       // schuly-avatar
+  var REDIRECT = location.origin + location.pathname; // this page, no query
+  var MAX_BYTES = 1024 * 1024;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var token = null, userId = null, pendingData = null, pendingType = null;
+
+  function b64url(bytes) {
+    var s = btoa(String.fromCharCode.apply(null, new Uint8Array(bytes)));
+    return s.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  }
+  function randomVerifier() {
+    var a = new Uint8Array(32); crypto.getRandomValues(a); return b64url(a);
+  }
+  async function challenge(verifier) {
+    var digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
+    return b64url(digest);
+  }
+  function decodeSub(jwt) {
+    try { return JSON.parse(atob(jwt.split(".")[1].replace(/-/g, "+").replace(/_/g, "/"))).sub; }
+    catch (e) { return null; }
+  }
+  function show(el, on) { el.classList.toggle("hidden", !on); }
+  function setMsg(text, cls) { var m = $("msg"); m.textContent = text || ""; m.className = "msg " + (cls || ""); }
+
+  async function login() {
+    var verifier = randomVerifier();
+    sessionStorage.setItem("av_verifier", verifier);
+    var url = REALM_URL + "/protocol/openid-connect/auth"
+      + "?client_id=" + encodeURIComponent(CLIENT_ID)
+      + "&redirect_uri=" + encodeURIComponent(REDIRECT)
+      + "&response_type=code&scope=" + encodeURIComponent("openid profile")
+      + "&code_challenge=" + (await challenge(verifier)) + "&code_challenge_method=S256";
+    location.replace(url);
+  }
+  async function exchange(code) {
+    var verifier = sessionStorage.getItem("av_verifier");
+    var body = new URLSearchParams({
+      grant_type: "authorization_code", code: code, client_id: CLIENT_ID,
+      redirect_uri: REDIRECT, code_verifier: verifier || ""
+    });
+    var r = await fetch(REALM_URL + "/protocol/openid-connect/token", {
+      method: "POST", headers: { "Content-Type": "application/x-www-form-urlencoded" }, body: body
+    });
+    if (!r.ok) throw new Error("token exchange failed");
+    var j = await r.json();
+    return j.access_token;
+  }
+
+  function refreshAvatar(bust) {
+    var img = $("avatar");
+    img.onload = function () { img.classList.remove("placeholder"); img.textContent = ""; };
+    img.onerror = function () { img.removeAttribute("src"); img.classList.add("placeholder"); img.textContent = "?"; show($("remove"), false); };
+    img.src = REALM_URL + "/avatar/" + userId + "?b=" + (bust || Date.now());
+  }
+
+  $("file").addEventListener("change", function (e) {
+    var f = e.target.files[0];
+    if (!f) return;
+    if (f.size > MAX_BYTES) { setMsg("Image is too large (max 1 MB).", "err"); return; }
+    var reader = new FileReader();
+    reader.onload = function () {
+      $("avatar").src = reader.result; $("avatar").classList.remove("placeholder"); $("avatar").textContent = "";
+      pendingData = reader.result.split(",")[1]; pendingType = f.type || "image/png";
+      show($("save"), true); setMsg("");
+    };
+    reader.readAsDataURL(f);
+  });
+
+  $("save").addEventListener("click", async function () {
+    if (!pendingData) return;
+    $("save").disabled = true; setMsg("Saving…");
+    try {
+      var r = await fetch(REALM_URL + "/avatar/me", {
+        method: "PUT", headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+        body: JSON.stringify({ contentType: pendingType, data: pendingData })
+      });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      pendingData = null; show($("save"), false); show($("remove"), true);
+      refreshAvatar(); setMsg("Saved. Your picture is updated.", "ok");
+    } catch (e) { setMsg("Upload failed: " + e.message, "err"); }
+    finally { $("save").disabled = false; }
+  });
+
+  $("remove").addEventListener("click", async function () {
+    $("remove").disabled = true; setMsg("Removing…");
+    try {
+      var r = await fetch(REALM_URL + "/avatar/me", { method: "DELETE", headers: { "Authorization": "Bearer " + token } });
+      if (!r.ok && r.status !== 204) throw new Error("HTTP " + r.status);
+      $("avatar").removeAttribute("src"); $("avatar").classList.add("placeholder"); $("avatar").textContent = "?";
+      show($("remove"), false); setMsg("Picture removed.", "ok");
+    } catch (e) { setMsg("Remove failed: " + e.message, "err"); }
+    finally { $("remove").disabled = false; }
+  });
+
+  (async function init() {
+    try {
+      var params = new URLSearchParams(location.search);
+      var code = params.get("code");
+      if (code) {
+        token = await exchange(code);
+        history.replaceState({}, "", REDIRECT); // strip ?code
+      }
+      if (!token) { await login(); return; }
+      userId = decodeSub(token);
+      show($("loading"), false); show($("ui"), true); show($("remove"), true);
+      refreshAvatar();
+    } catch (e) {
+      show($("loading"), false); show($("ui"), true);
+      setMsg("Sign-in failed. Reload to try again.", "err");
+    }
+  })();
+})();
+</script>
+</body>
+</html>
