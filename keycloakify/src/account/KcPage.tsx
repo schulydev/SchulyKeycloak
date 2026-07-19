@@ -3,7 +3,11 @@ import type { ClassKey } from "keycloakify/account";
 import type { KcContext } from "./KcContext";
 import { useI18n } from "./i18n";
 import DefaultPage from "keycloakify/account/DefaultPage";
-import Template from "keycloakify/account/Template";
+import Template from "./Template";
+import Account from "./pages/Account";
+import Password from "./pages/Password";
+import "../login/index.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
 
 export default function KcPage(props: { kcContext: KcContext }) {
     const { kcContext } = props;
@@ -11,14 +15,20 @@ export default function KcPage(props: { kcContext: KcContext }) {
     const { i18n } = useI18n({ kcContext });
 
     return (
-        <Suspense>
-            {(() => {
-                switch (kcContext.pageId) {
-                    default:
-                        return <DefaultPage kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={true} />;
-                }
-            })()}
-        </Suspense>
+        <ThemeProvider defaultTheme="system">
+            <Suspense>
+                {(() => {
+                    switch (kcContext.pageId) {
+                        case "account.ftl":
+                            return <Account kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={false} />;
+                        case "password.ftl":
+                            return <Password kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={false} />;
+                        default:
+                            return <DefaultPage kcContext={kcContext} i18n={i18n} classes={classes} Template={Template} doUseDefaultCss={true} />;
+                    }
+                })()}
+            </Suspense>
+        </ThemeProvider>
     );
 }
 
