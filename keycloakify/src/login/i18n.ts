@@ -17,7 +17,11 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Last used",
             attemptedUsernameLoggingInAs: "Logging in as",
             loginTotpAddToApp: "Add to authenticator app",
-            loginTotpScanWithOtherDevice: "or scan the code with another device"
+            loginTotpScanWithOtherDevice: "or scan the code with another device",
+            // Strip Keycloak's default "« " guillemet decorations.
+            backToLogin: "Back to login",
+            backToApplication: "Back to application",
+            alreadyHaveAccount: "Already have an account?"
         },
         ar: {
             welcomeMessage: "بوابة مدرستك في تطبيق واحد - الدرجات والجدول الزمني والأجندة والغيابات.",

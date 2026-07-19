@@ -47,11 +47,12 @@ export function Form() {
                 </Button>
             </div>
 
-            <div className=" flex justify-end">
-                <Button type="button" variant="ghost">
-                    <a href={kcContext.url.loginUrl}>{msg("backToLogin")}</a>
-                </Button>
-            </div>
+            <p className="text-center text-sm text-muted-foreground">
+                {msg("alreadyHaveAccount")}{" "}
+                <a href={kcContext.url.loginUrl} className="underline underline-offset-4 hover:text-foreground">
+                    {msgStr("doLogIn")}
+                </a>
+            </p>
         </form>
     );
 }
