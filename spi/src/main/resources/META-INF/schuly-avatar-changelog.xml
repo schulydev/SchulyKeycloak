@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.29.xsd">
+    <changeSet author="schuly" id="schuly-avatar-1">
+        <createTable tableName="SCHULY_AVATAR">
+            <column name="USER_ID" type="VARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CONSTRAINT_SCHULY_AVATAR_PK"/>
+            </column>
+            <column name="REALM_ID" type="VARCHAR(255)"/>
+            <column name="CONTENT_TYPE" type="VARCHAR(100)"/>
+            <column name="DATA" type="CLOB"/>
+            <column name="UPDATED_AT" type="BIGINT"/>
+        </createTable>
+        <createIndex tableName="SCHULY_AVATAR" indexName="IDX_SCHULY_AVATAR_REALM">
+            <column name="REALM_ID"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

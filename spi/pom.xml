@@ -46,6 +46,19 @@
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
+        <!-- Avatar SPI: custom JPA entity + table, resolved via JpaConnectionProvider. -->
+        <dependency>
+            <groupId>org.keycloak</groupId>
+            <artifactId>keycloak-model-jpa</artifactId>
+            <version>${keycloak.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
