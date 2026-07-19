@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Field, FieldError, FieldLabel } from "@/components/ui/field";
+import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Label } from "@/components/ui/label";
@@ -37,8 +37,8 @@ export function Form() {
                             }}
                             action={kcContext.url.loginAction}
                             method="post"
-                            className="space-y-4"
                         >
+                            <FieldGroup>
                             {!kcContext.usernameHidden && (
                                 <Field>
                                     <FieldLabel htmlFor="username">
@@ -84,9 +84,20 @@ export function Form() {
                             )}
 
                             <Field>
-                                <FieldLabel htmlFor="password">
-                                    {msg("password")}
-                                </FieldLabel>
+                                <div className="flex items-center">
+                                    <FieldLabel htmlFor="password">
+                                        {msg("password")}
+                                    </FieldLabel>
+                                    {kcContext.realm.resetPasswordAllowed && (
+                                        <a
+                                            tabIndex={6}
+                                            href={kcContext.url.loginResetCredentialsUrl}
+                                            className="ml-auto text-sm underline-offset-4 hover:underline"
+                                        >
+                                            {msg("doForgotPassword")}
+                                        </a>
+                                    )}
+                                </div>
                                 <InputGroup>
                                     <InputGroupInput
                                         tabIndex={3}
@@ -125,44 +136,22 @@ export function Form() {
                                     )}
                             </Field>
 
-                            <div className="space-y-1 flex justify-between text-xs">
-                                {kcContext.realm.rememberMe &&
-                                    !kcContext.usernameHidden && (
-                                        <div className="flex items-center space-x-2 ">
-                                            <Checkbox
-                                                tabIndex={5}
-                                                id="rememberMe"
-                                                name="rememberMe"
-                                                defaultChecked={
-                                                    !!kcContext.login.rememberMe
-                                                }
-                                            />
-
-                                            <Label
-                                                htmlFor="rememberMe"
-                                                className="text-sm font-medium cursor-pointer"
-                                            >
-                                                {msg("rememberMe")}
-                                            </Label>
-                                        </div>
-                                    )}
-                                <div className="link-style ">
-                                    {kcContext.realm.resetPasswordAllowed && (
-                                        <span className=" underline-offset-4 hover:underline">
-                                            <a
-                                                tabIndex={6}
-                                                href={
-                                                    kcContext.url.loginResetCredentialsUrl
-                                                }
-                                            >
-                                                <Label className="text-sm font-medium cursor-pointer">
-                                                    {msg("doForgotPassword")}
-                                                </Label>
-                                            </a>
-                                        </span>
-                                    )}
+                            {kcContext.realm.rememberMe && !kcContext.usernameHidden && (
+                                <div className="flex items-center space-x-2">
+                                    <Checkbox
+                                        tabIndex={5}
+                                        id="rememberMe"
+                                        name="rememberMe"
+                                        defaultChecked={!!kcContext.login.rememberMe}
+                                    />
+                                    <Label
+                                        htmlFor="rememberMe"
+                                        className="text-sm font-medium cursor-pointer"
+                                    >
+                                        {msg("rememberMe")}
+                                    </Label>
                                 </div>
-                            </div>
+                            )}
 
                             <div className={kcClsx("kcFormGroupClass")}>
                                 <input
@@ -184,6 +173,7 @@ export function Form() {
                                     {msgStr("doLogIn")}
                                 </Button>
                             </div>
+                            </FieldGroup>
                         </form>
                     )}
                 </div>

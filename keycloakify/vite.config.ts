@@ -11,7 +11,7 @@ export default defineConfig({
         tailwindcss(),
         keycloakify({
             themeName: "schuly",
-            accountThemeImplementation: "none"
+            accountThemeImplementation: "Multi-Page"
         })
     ],
     resolve: {

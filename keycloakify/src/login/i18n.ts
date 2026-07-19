@@ -17,7 +17,11 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Last used",
             attemptedUsernameLoggingInAs: "Logging in as",
             loginTotpAddToApp: "Add to authenticator app",
-            loginTotpScanWithOtherDevice: "or scan the code with another device"
+            loginTotpScanWithOtherDevice: "or scan the code with another device",
+            // Strip Keycloak's default "« " guillemet decorations.
+            backToLogin: "Back to login",
+            backToApplication: "Back to application",
+            alreadyHaveAccount: "Already have an account?"
         },
         ar: {
             welcomeMessage: "بوابة مدرستك في تطبيق واحد - الدرجات والجدول الزمني والأجندة والغيابات.",
@@ -31,7 +35,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "آخر استخدام",
             attemptedUsernameLoggingInAs: "تسجيل الدخول كـ",
             loginTotpAddToApp: "إضافة إلى تطبيق المصادقة",
-            loginTotpScanWithOtherDevice: "أو امسح الرمز باستخدام جهاز آخر"
+            loginTotpScanWithOtherDevice: "أو امسح الرمز باستخدام جهاز آخر",
+            backToLogin: "العودة إلى تسجيل الدخول",
+            backToApplication: "العودة إلى التطبيق",
+            alreadyHaveAccount: "هل لديك حساب بالفعل؟"
         },
         fr: {
             welcomeMessage:
@@ -47,7 +54,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Dernière utilisation",
             attemptedUsernameLoggingInAs: "Se connecter en tant que",
             loginTotpAddToApp: "Ajouter à l'application d'authentification",
-            loginTotpScanWithOtherDevice: "ou scannez le code avec un autre appareil"
+            loginTotpScanWithOtherDevice: "ou scannez le code avec un autre appareil",
+            backToLogin: "Retour à la connexion",
+            backToApplication: "Retour à l'application",
+            alreadyHaveAccount: "Vous avez déjà un compte ?"
         }
     })
     .build();

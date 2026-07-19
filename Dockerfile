@@ -37,7 +37,9 @@ FROM quay.io/keycloak/keycloak:26.6 AS builder
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
-COPY --from=theme /build/dist_keycloak/keycloak-theme-for-kc-all-other-versions.jar \
+# Keycloakify emits version-specific jars once an account theme is included; the
+# 26.2-and-above jar matches our Keycloak 26.6 base.
+COPY --from=theme /build/dist_keycloak/keycloak-theme-for-kc-26.2-and-above.jar \
      /opt/keycloak/providers/schuly-keycloak-theme.jar
 COPY --from=spi /spi/target/schuly-email-code.jar \
      /opt/keycloak/providers/schuly-email-code.jar
