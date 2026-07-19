@@ -1,6 +1,9 @@
 package dev.schuly.keycloak.avatar;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
@@ -115,6 +118,28 @@ public class AvatarResource {
         }
         user.removeAttribute("picture");
         return Response.noContent().build();
+    }
+
+    /** Self-contained upload page (Schuly-branded) that authenticates via the
+     *  {@code schuly-avatar} public client and PUTs the image to this resource. */
+    @GET
+    @Path("ui")
+    @Produces(MediaType.TEXT_HTML)
+    public Response ui() {
+        RealmModel realm = session.getContext().getRealm();
+        URI base = session.getContext().getUri(UrlType.FRONTEND).getBaseUri();
+        String realmUrl = base.toString().replaceAll("/+$", "") + "/realms/" + realm.getName();
+        String html;
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("avatar-ui.html")) {
+            if (in == null) {
+                throw new NotFoundException();
+            }
+            html = new String(in.readAllBytes(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        html = html.replace("${realmUrl}", realmUrl).replace("${clientId}", "schuly-avatar");
+        return Response.ok(html).build();
     }
 
     @GET
