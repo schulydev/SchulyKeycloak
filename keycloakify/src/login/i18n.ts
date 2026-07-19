@@ -35,7 +35,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "آخر استخدام",
             attemptedUsernameLoggingInAs: "تسجيل الدخول كـ",
             loginTotpAddToApp: "إضافة إلى تطبيق المصادقة",
-            loginTotpScanWithOtherDevice: "أو امسح الرمز باستخدام جهاز آخر"
+            loginTotpScanWithOtherDevice: "أو امسح الرمز باستخدام جهاز آخر",
+            backToLogin: "العودة إلى تسجيل الدخول",
+            backToApplication: "العودة إلى التطبيق",
+            alreadyHaveAccount: "هل لديك حساب بالفعل؟"
         },
         fr: {
             welcomeMessage:
@@ -51,7 +54,10 @@ const { I18nProvider, useI18n } = i18nBuilder
             "identity-provider-login-last-used": "Dernière utilisation",
             attemptedUsernameLoggingInAs: "Se connecter en tant que",
             loginTotpAddToApp: "Ajouter à l'application d'authentification",
-            loginTotpScanWithOtherDevice: "ou scannez le code avec un autre appareil"
+            loginTotpScanWithOtherDevice: "ou scannez le code avec un autre appareil",
+            backToLogin: "Retour à la connexion",
+            backToApplication: "Retour à l'application",
+            alreadyHaveAccount: "Vous avez déjà un compte ?"
         }
     })
     .build();

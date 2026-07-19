@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { clsx } from "keycloakify/tools/clsx";
 import { kcSanitize } from "keycloakify/lib/kcSanitize";
-import { getKcClsx } from "keycloakify/account/lib/kcClsx";
 import { useInitialize } from "keycloakify/account/Template.useInitialize";
 import type { TemplateProps } from "keycloakify/account/TemplateProps";
 import type { I18n } from "./i18n";
@@ -11,13 +10,11 @@ import { LogOut } from "lucide-react";
 import schulyLogo from "../login/assets/img/app-icon.png";
 
 export default function Template(props: TemplateProps<KcContext, I18n>) {
-    const { kcContext, i18n, doUseDefaultCss, active, classes, children } = props;
-
-    const { kcClsx } = getKcClsx({ doUseDefaultCss, classes });
+    const { kcContext, i18n, doUseDefaultCss, active, children } = props;
 
     const { msg, msgStr } = i18n;
 
-    const { url, features, realm, message, referrer } = kcContext;
+    const { url, features, message, referrer } = kcContext;
 
     useEffect(() => {
         document.title = msgStr("accountManagementTitle");
@@ -96,10 +93,7 @@ export default function Template(props: TemplateProps<KcContext, I18n>) {
                                 message.type === "info" && "border-border bg-secondary/40"
                             )}
                         >
-                            <span
-                                className={kcClsx("kcFeedbackTextClass")}
-                                dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }}
-                            />
+                            <span dangerouslySetInnerHTML={{ __html: kcSanitize(message.summary) }} />
                         </div>
                     )}
                     {children}
