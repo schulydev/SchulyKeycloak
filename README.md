@@ -2,6 +2,7 @@
 
 [![Release](https://img.shields.io/github/v/release/schulydev/SchulyKeycloak)](https://github.com/schulydev/SchulyKeycloak/releases)
 [![Build & publish](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml/badge.svg)](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml)
+[![Documentation](https://img.shields.io/badge/docs-docs.schuly.dev-3da8ff)](https://docs.schuly.dev/SchulyKeycloak/)
 
 Schuly's own [Keycloak](https://www.keycloak.org/) image - the production identity
 provider for Schuly. It bakes a [Keycloakify](https://keycloakify.dev) login theme, a
@@ -31,24 +32,33 @@ docker run -p 8080:8080 \
 ```
 
 For the complete stack (Postgres + reverse proxy + TLS) see
-[Self-hosting the full stack](docs/setup/self-hosting.md).
+[Self-hosting the full stack](https://docs.schuly.dev/SchulyKeycloak/setup/self-hosting).
 
 ## Documentation
 
-Full docs live in [`docs/`](docs/README.md) (and at
-[docs.schuly.dev](https://docs.schuly.dev)):
+Full documentation lives at **[docs.schuly.dev/SchulyKeycloak](https://docs.schuly.dev/SchulyKeycloak/)**.
 
-| Doc | What it covers |
+| Guide | What it covers |
 |---|---|
-| [Development setup](docs/setup/development.md) | Run the image locally with Docker Compose. |
-| [Self-hosting](docs/setup/self-hosting.md) | Deploy the full stack for production. |
-| [Configuration reference](docs/configuration.md) | Every port, environment variable, and default. |
-| [Architecture](docs/architecture.md) | How the theme, realm, and base image compose. |
-| [Realm management](docs/realm-management.md) | Edit and snapshot the `schuly` realm (incl. 2FA). |
-| [Theme development](docs/theme-development.md) | Work on the Keycloakify login theme. |
-| [Release](docs/setup/release.md) | Cut a release and publish images. |
-| [Troubleshooting](docs/troubleshooting.md) | Symptoms, causes, and fixes. |
+| [Development setup](https://docs.schuly.dev/SchulyKeycloak/setup/development) | Run the image locally with Docker Compose. |
+| [Self-hosting](https://docs.schuly.dev/SchulyKeycloak/setup/self-hosting) | Deploy the full stack for production. |
+| [Configuration reference](https://docs.schuly.dev/SchulyKeycloak/configuration) | Every port, environment variable, and default (including `SMTP_*`). |
+| [Architecture](https://docs.schuly.dev/SchulyKeycloak/architecture) | How the theme, realm, and base image compose. |
+| [Realm management](https://docs.schuly.dev/SchulyKeycloak/realm-management) | Edit and snapshot the `schuly` realm (incl. 2FA). |
+| [Account vs privacy mode](https://docs.schuly.dev/SchulyKeycloak/account-vs-privacy-mode) | Which login modes exist and what each stores. |
+| [Theme development](https://docs.schuly.dev/SchulyKeycloak/theme-development) | Work on the Keycloakify login theme. |
+| [Release](https://docs.schuly.dev/SchulyKeycloak/setup/release) | Cut a release and publish images. |
+| [Troubleshooting](https://docs.schuly.dev/SchulyKeycloak/troubleshooting) | Symptoms, causes, and fixes. |
+| [Contributing](https://docs.schuly.dev/SchulyKeycloak/contributing) | Workflow, branch and PR conventions. |
 
-## Contributing
+## The Schuly ecosystem
 
-Issue → branch → PR → squash-merge. See [Contributing](docs/contributing.md).
+| Repo | Purpose |
+|---|---|
+| [**Schuly**](https://github.com/schulydev/Schuly) | Flutter mobile app |
+| [**SchulyBackend**](https://github.com/schulydev/SchulyBackend) | ASP.NET Core API backend |
+| [**SchulyKeycloak**](https://github.com/schulydev/SchulyKeycloak) | Keycloak image + the `schuly` realm *(this repo)* |
+| [**SchulyPluginAbstractions**](https://github.com/schulydev/SchulyPluginAbstractions) | Plugin contract (NuGet) |
+| [**SchulyPlugins**](https://github.com/schulydev/SchulyPlugins) | Official plugins monorepo |
+| [**SchulyWebsite**](https://github.com/schulydev/SchulyWebsite) | Landing site ([schuly.dev](https://schuly.dev)) |
+| [**SchulyDocs**](https://github.com/schulydev/SchulyDocs) | Documentation site ([docs.schuly.dev](https://docs.schuly.dev)) |
