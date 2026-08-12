@@ -4,8 +4,6 @@ import { useRef } from "react";
 import { base64url } from "rfc4648";
 import { assert } from "tsafe/assert";
 
-// see https://github.com/keycloak/keycloak/blob/main/themes/src/main/resources/theme/base/login/resources/js/webauthnRegister.js
-
 export type RegisterOptions = {
     challenge: string;
     rpId: string;
@@ -125,7 +123,6 @@ async function webAuthnRegister(
         return { success: false, error: errmsg || "WebAuthn not supported" };
     }
 
-    // Build Public Key Options
     const publicKey: PublicKeyCredentialCreationOptions = {
         challenge: new Uint8Array(base64url.parse(challenge, { loose: true })),
         rp: { id: rpId, name: rpEntityName },
@@ -139,7 +136,6 @@ async function webAuthnRegister(
         excludeCredentials: []
     };
 
-    // Map Algorithms
     if (signatureAlgorithms.length === 0) {
         publicKey.pubKeyCredParams.push({ type: "public-key", alg: -7 });
     } else {
@@ -151,7 +147,6 @@ async function webAuthnRegister(
         });
     }
 
-    // Authenticator Selection
     const authSelect: AuthenticatorSelectionCriteria = {};
     let isAuthSelectSpecified = false;
 
@@ -176,7 +171,6 @@ async function webAuthnRegister(
         publicKey.authenticatorSelection = authSelect;
     }
 
-    // Attestation
     if (
         attestationConveyancePreference &&
         attestationConveyancePreference !== "not specified"
@@ -185,7 +179,6 @@ async function webAuthnRegister(
             attestationConveyancePreference as AttestationConveyancePreference;
     }
 
-    // Exclude Credentials (prevent registering the same key twice)
     if (excludeCredentialIds) {
         const ids = excludeCredentialIds.split(",").filter(id => id !== "");
         publicKey.excludeCredentials = ids.map(id => ({
@@ -195,12 +188,10 @@ async function webAuthnRegister(
     }
 
     try {
-        // Call Browser API
         const credential = (await navigator.credentials.create({
             publicKey
         })) as PublicKeyCredential;
 
-        // Type Narrowing & Formatting
         if (!(credential instanceof PublicKeyCredential)) {
             throw new Error("Created credential is not a PublicKeyCredential");
         }
@@ -210,7 +201,6 @@ async function webAuthnRegister(
             throw new Error("Response is not an AuthenticatorAttestationResponse");
         }
 
-        // Handle Transports
         let transports = "";
         if (typeof response.getTransports === "function") {
             const transportsList = response.getTransports();
@@ -219,7 +209,6 @@ async function webAuthnRegister(
             }
         }
 
-        // Success
         return {
             success: true,
             clientDataJSON: base64url.stringify(new Uint8Array(response.clientDataJSON), {
