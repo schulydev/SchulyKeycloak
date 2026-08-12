@@ -1,10 +1,5 @@
 # syntax=docker/dockerfile:1
 
-# Schuly's own Keycloak image. Same recipe as the Polyglot-App keycloak/ folder:
-# a Keycloakify login theme baked in as a provider jar, a leaked-password
-# blacklist, plus the Schuly realm baked in so the prod image is self-contained.
-# The final image is an *optimized* build (`kc.sh build`) for fast prod startup.
-
 # ---- Stage 1: build the Keycloakify login theme into a provider jar ----------
 FROM node:22-bookworm AS theme
 RUN apt-get update && apt-get install -y maven && rm -rf /var/lib/apt/lists/*
@@ -37,8 +32,6 @@ FROM quay.io/keycloak/keycloak:26.6 AS builder
 ENV KC_DB=postgres
 ENV KC_HEALTH_ENABLED=true
 ENV KC_METRICS_ENABLED=true
-# Keycloakify emits version-specific jars once an account theme is included; the
-# 26.2-and-above jar matches our Keycloak 26.6 base.
 COPY --from=theme /build/dist_keycloak/keycloak-theme-for-kc-26.2-and-above.jar \
      /opt/keycloak/providers/schuly-keycloak-theme.jar
 COPY --from=spi /spi/target/schuly-email-code.jar \
@@ -50,12 +43,9 @@ FROM quay.io/keycloak/keycloak:26.6
 COPY --from=builder /opt/keycloak/ /opt/keycloak/
 COPY --from=blacklist /rockyou-utf8.txt /opt/keycloak/password-blacklists/rockyou.txt
 COPY realms/ /opt/keycloak/data/import/
-# Branded email theme (schuly/email) — the Keycloakify jar only carries the login theme.
+# Branded email theme (schuly/email)
 COPY themes/ /opt/keycloak/themes/
 COPY scripts/resolve-realm-env.sh /opt/keycloak/resolve-realm-env.sh
-# Keycloak's realm import does NOT substitute ${env.*} (only ${vault.x}, at
-# use-time), so this wrapper resolves the realm's ${env.*} placeholders from the
-# container env before kc.sh runs. Needs the script executable + a writable import dir.
 USER root
 RUN chmod +x /opt/keycloak/resolve-realm-env.sh \
     && chown -R 1000:0 /opt/keycloak/data/import \

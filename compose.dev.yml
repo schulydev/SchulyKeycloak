@@ -1,7 +1,5 @@
-# Local development for the Schuly Keycloak image.
 #   docker compose -f compose.dev.yml up --build
 # Admin console: http://localhost:8080  (admin / admin)
-# The `schuly` realm is imported from ./realms on first start.
 services:
   keycloak:
     build: .
