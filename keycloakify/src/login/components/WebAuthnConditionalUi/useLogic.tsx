@@ -7,10 +7,6 @@ import { useI18n } from "../../i18n";
 
 // see https://github.com/keycloak/keycloak/blob/main/themes/src/main/resources/theme/base/login/resources/js/webauthnAuthenticate.js
 
-/**
- * Options required to initiate the WebAuthn authentication flow.
- * These usually come directly from the Keycloak context (kcContext).
- */
 export type AuthenticateOptions = {
     /**
      * If true, the user has already entered their username.
@@ -30,10 +26,7 @@ export type AuthenticateOptions = {
      */
     rpId: string;
 
-    /**
-     * User verification requirement (e.g., "required", "preferred", "discouraged").
-     * Determines if the user must enter a PIN or use biometrics.
-     */
+    /** User verification requirement (e.g., "required", "preferred", "discouraged"). */
     userVerification: UserVerificationRequirement | string;
 
     /**
@@ -48,13 +41,11 @@ export type AuthenticateOptions = {
      */
     authenticators: { credentialId: string }[] | undefined;
 
-    /** * Mediation type for the credential request.
+    /**
      * "optional" for standard button click, "conditional" for silent requests.
      */
     mediation: "optional" | "conditional";
 
-    /** * Optional error message to display if the browser does not support WebAuthn.
-     */
     errmsg: string | undefined;
 };
 
@@ -190,12 +181,10 @@ export async function authenticate(
         mediation
     } = options;
 
-    //  Browser Support Check
     if (!window.PublicKeyCredential) {
         return { success: false, error: errmsg || "WebAuthn not supported" };
     }
 
-    // Prepare Configuration
     const publicKey: PublicKeyCredentialRequestOptions = {
         challenge: new Uint8Array(base64url.parse(challenge, { loose: true })),
         rpId: rpId
@@ -208,7 +197,6 @@ export async function authenticate(
 
     if (createTimeout !== 0) publicKey.timeout = createTimeout * 1000;
 
-    // Handle Allowed Credentials
     if (isUserIdentified && authenticators) {
         publicKey.allowCredentials = authenticators.map(auth => ({
             id: new Uint8Array(base64url.parse(auth.credentialId, { loose: true })),
@@ -225,7 +213,6 @@ export async function authenticate(
 
         const response = credential.response as AuthenticatorAssertionResponse;
 
-        // Success Handling
         return {
             success: true,
             clientDataJSON: base64url.stringify(new Uint8Array(response.clientDataJSON), {
@@ -263,7 +250,6 @@ export async function authenticate(
  */
 export function getWebAuthnSignal(): AbortSignal {
     if (abortController) {
-        // Abort the previous call
         const abortError = new Error("Cancelling pending WebAuthn call");
         abortError.name = "AbortError";
         abortController.abort(abortError);

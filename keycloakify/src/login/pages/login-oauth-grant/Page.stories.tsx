@@ -1,6 +1,5 @@
 import { createKcPageStory, type Meta, type StoryObj } from "../../mocks/KcPageStory";
 
-// Mock kcContext to simulate real environment
 const mockKcContext = {
     url: {
         oauthAction: "/oauth-action"
@@ -33,12 +32,6 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-/**
- * Default:
- * - Purpose: Tests the default behavior with meaningful logo (Twitter).
- * - Scenario: The component renders with Twitter as the client, displaying its logo, policy, and terms of service links.
- * - Key Aspect: Ensures the component works with a realistic `logoUri` and client name.
- */
 export const Default: Story = {
     args: {
         kcContext: mockKcContext
@@ -65,12 +58,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithoutScopes:
- * - Purpose: Tests the component when no OAuth scopes are requested.
- * - Scenario: The component renders with no scopes listed under the consent screen.
- * - Key Aspect: Ensures the component renders correctly when there are no requested scopes.
- */
 export const WithoutScopes: Story = {
     args: {
         kcContext: {
@@ -83,12 +70,6 @@ export const WithoutScopes: Story = {
     }
 };
 
-/**
- * WithFormSubmissionError:
- * - Purpose: Tests how the component handles form submission errors.
- * - Scenario: The `oauthAction` URL is set to an error route and an error message is displayed.
- * - Key Aspect: Ensures that the component can display error messages when form submission fails.
- */
 export const WithFormSubmissionError: Story = {
     args: {
         kcContext: {

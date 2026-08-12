@@ -35,12 +35,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithErrorDuringCodeGeneration:
- * - Purpose: Tests when an error occurs while generating recovery authentication codes.
- * - Scenario: The component renders an error message to inform the user of the failure during code generation.
- * - Key Aspect: Ensures that error messages are properly displayed when recovery code generation fails.
- */
 export const WithErrorDuringCodeGeneration: Story = {
     args: {
         kcContext: {

@@ -43,12 +43,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithMultipleAuthenticators:
- * - Purpose: Tests when multiple WebAuthn authenticators are available for selection.
- * - Scenario: The component renders multiple authenticators, allowing the user to choose between them.
- * - Key Aspect: Ensures that the available authenticators are displayed, and the user can select one.
- */
 export const WithMultipleAuthenticators: Story = {
     args: {
         kcContext: {
@@ -82,12 +76,6 @@ export const WithMultipleAuthenticators: Story = {
     }
 };
 
-/**
- * WithSingleAuthenticator:
- * - Purpose: Tests when only one WebAuthn authenticator is available.
- * - Scenario: The component renders the WebAuthn form with a single available authenticator.
- * - Key Aspect: Ensures the form renders correctly when there is only one authenticator available.
- */
 export const WithSingleAuthenticator: Story = {
     args: {
         kcContext: {
@@ -112,12 +100,6 @@ export const WithSingleAuthenticator: Story = {
     }
 };
 
-/**
- * WithErrorDuringAuthentication:
- * - Purpose: Tests the behavior when an error occurs during WebAuthn authentication.
- * - Scenario: The component renders with an error message displayed to the user.
- * - Key Aspect: Ensures the form handles authentication errors and displays a relevant message.
- */
 export const WithErrorDuringAuthentication: Story = {
     args: {
         kcContext: {
@@ -146,12 +128,6 @@ export const WithErrorDuringAuthentication: Story = {
     }
 };
 
-/**
- * WithJavaScriptDisabled:
- * - Purpose: Tests the behavior when JavaScript is disabled or not functioning.
- * - Scenario: The component renders a fallback message prompting the user to enable JavaScript for WebAuthn authentication.
- * - Key Aspect: Ensures the form provides a clear message when JavaScript is required but unavailable.
- */
 export const WithJavaScriptDisabled: Story = {
     args: {
         kcContext: {

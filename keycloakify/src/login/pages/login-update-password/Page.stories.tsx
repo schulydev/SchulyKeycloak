@@ -33,12 +33,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithPasswordError:
- * - Purpose: Tests when there is an error in the password input (e.g., invalid password).
- * - Scenario: Simulates the case where the user enters an invalid password, and an error message is displayed.
- * - Key Aspect: Ensures the password input field shows an error message when validation fails.
- */
 export const WithPasswordError: Story = {
     args: {
         kcContext: {
@@ -54,12 +48,6 @@ export const WithPasswordError: Story = {
     }
 };
 
-/**
- * WithPasswordConfirmError:
- * - Purpose: Tests when there is an error in the password confirmation input (e.g., passwords do not match).
- * - Scenario: Simulates the case where the user enters mismatching passwords, and an error message is displayed in the confirmation field.
- * - Key Aspect: Ensures that the password confirmation field shows an error when passwords do not match.
- */
 export const WithPasswordConfirmError: Story = {
     args: {
         kcContext: {

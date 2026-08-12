@@ -43,12 +43,6 @@ export const WithEmailAsUsername: Story = {
         }
     }
 };
-/**
- * WithUsernameError:
- * - Purpose: Tests behavior when an error occurs with the username input (e.g., invalid username).
- * - Scenario: The component displays an error message next to the username input field.
- * - Key Aspect: Ensures the username input shows error messages when validation fails.
- */
 export const WithUsernameError: Story = {
     args: {
         kcContext: {
