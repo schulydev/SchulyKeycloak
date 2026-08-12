@@ -1,7 +1,6 @@
 import { i18nBuilder } from "@keycloakify/login-ui/i18n";
 import type { ThemeName } from "../kc.gen";
 
-/** @see: https://docs.keycloakify.dev/features/i18n */
 const { I18nProvider, useI18n } = i18nBuilder
     .withThemeName<ThemeName>()
     .withCustomTranslations({
@@ -18,7 +17,6 @@ const { I18nProvider, useI18n } = i18nBuilder
             attemptedUsernameLoggingInAs: "Logging in as",
             loginTotpAddToApp: "Add to authenticator app",
             loginTotpScanWithOtherDevice: "or scan the code with another device",
-            // Strip Keycloak's default "« " guillemet decorations.
             backToLogin: "Back to login",
             backToApplication: "Back to application",
             alreadyHaveAccount: "Already have an account?"

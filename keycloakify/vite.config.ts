@@ -4,7 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { keycloakify } from "keycloakify/vite-plugin";
 import path from "node:path";
 
-// https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         react(),

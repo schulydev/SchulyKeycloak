@@ -1,5 +1,4 @@
 /// <reference types="vite/client" />
-
 import type { KcContext } from "./login/KcContext";
 
 declare global {
@@ -7,4 +6,3 @@ declare global {
         kcContext?: KcContext;
     }
 }
-
