@@ -7,6 +7,12 @@
 # Non-env placeholders like ${username}/${email} are left untouched.
 set -euo pipefail
 
+# An unset placeholder resolves to an empty string, and Keycloak refuses to start
+# when the realm's SMTP sender is empty ("Invalid sender address ''"), so give the
+# sender a valid fallback. Mail is only actually delivered once SMTP_HOST and the
+# rest are set as well.
+: "${SMTP_FROM:=noreply@localhost}"
+
 import_dir="/opt/keycloak/data/import"
 if [ -d "$import_dir" ]; then
     for f in "$import_dir"/*.json; do
