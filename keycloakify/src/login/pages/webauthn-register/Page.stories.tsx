@@ -33,12 +33,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithRetryAvailable:
- * - Purpose: Tests when the user is allowed to retry WebAuthn registration after a failure.
- * - Scenario: The component renders the form with a retry option.
- * - Key Aspect: Ensures the retry functionality is available and the form allows the user to retry.
- */
 export const WithRetryAvailable: Story = {
     args: {
         kcContext: {
@@ -51,12 +45,6 @@ export const WithRetryAvailable: Story = {
     }
 };
 
-/**
- * WithErrorDuringRegistration:
- * - Purpose: Tests when an error occurs during WebAuthn registration.
- * - Scenario: The component displays an error message related to WebAuthn registration failure.
- * - Key Aspect: Ensures the error message is displayed correctly, informing the user of the registration failure.
- */
 export const WithErrorDuringRegistration: Story = {
     args: {
         kcContext: {

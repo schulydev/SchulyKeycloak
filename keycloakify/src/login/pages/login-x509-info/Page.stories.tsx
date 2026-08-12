@@ -33,12 +33,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithoutUserEnabled:
- * - Purpose: Tests when the user is not enabled to log in via x509.
- * - Scenario: The component renders the certificate details but does not provide the option to log in or cancel.
- * - Key Aspect: Ensures that the login buttons are not displayed when the user is not enabled.
- */
 export const WithoutUserEnabled: Story = {
     args: {
         kcContext: {

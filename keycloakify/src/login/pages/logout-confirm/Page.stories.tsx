@@ -33,12 +33,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithCustomLogoutMessage:
- * - Purpose: Tests when a custom message is displayed for the logout confirmation.
- * - Scenario: The component renders with a custom logout confirmation message instead of the default one.
- * - Key Aspect: Ensures the custom logout message is displayed correctly.
- */
 export const WithCustomLogoutMessage: Story = {
     args: {
         kcContext: {

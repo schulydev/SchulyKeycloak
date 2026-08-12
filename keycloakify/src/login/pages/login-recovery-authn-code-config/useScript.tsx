@@ -15,7 +15,6 @@ export function useScript(params: { olRecoveryCodesListId: string }) {
                 type: "text/javascript",
                 textContent: () => `
 
-                    /* copy recovery codes  */
                     function copyRecoveryCodes() {
                         var tmpTextarea = document.createElement("textarea");
                         var codes = document.querySelectorAll("#${olRecoveryCodesListId} li");
@@ -33,7 +32,6 @@ export function useScript(params: { olRecoveryCodesListId: string }) {
                         copyRecoveryCodes();
                     });
 
-                    /* download recovery codes  */
                     function formatCurrentDateTime() {
                         var dt = new Date();
                         var options = {
@@ -96,7 +94,6 @@ export function useScript(params: { olRecoveryCodesListId: string }) {
                     var downloadButton = document.getElementById("downloadRecoveryCodes");
                     downloadButton && downloadButton.addEventListener("click", downloadRecoveryCodes);
 
-                    /* print recovery codes */
                     function buildPrintContent() {
                         var recoveryCodeListHTML = document.getElementById('${olRecoveryCodesListId}').innerHTML;
                         var styles =

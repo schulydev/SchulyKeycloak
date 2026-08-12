@@ -69,7 +69,6 @@ export function SocialProviders() {
                                             />
                                         </div>
                                     ) : (
-                                        // Fallback to the original iconClasses if the logo is not defined
                                         p.iconClasses && (
                                             <i
                                                 className={clsx(

@@ -33,12 +33,6 @@ export const French: Story = {
     }
 };
 
-/**
- * WithProfileError:
- * - Purpose: Tests when an error occurs in one or more profile fields (e.g., invalid email format).
- * - Scenario: The component displays error messages next to the affected fields.
- * - Key Aspect: Ensures the profile fields show error messages when validation fails.
- */
 export const WithProfileError: Story = {
     args: {
         kcContext: {
