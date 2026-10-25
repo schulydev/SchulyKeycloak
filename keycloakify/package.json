@@ -10,7 +10,7 @@
         "storybook": "storybook dev -p 6006",
         "format": "prettier . --write"
     },
-    "license": "PolyForm-Noncommercial-1.0.0",
+    "license": "Apache-2.0",
     "keywords": [],
     "dependencies": {
         "@keycloakify/login-ui": "^250004.7.0",
