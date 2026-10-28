@@ -352,6 +352,38 @@
       ]
     },
     {
+      "clientId": "schuly-web",
+      "name": "Schuly Web",
+      "description": "Public OIDC client for the Schuly web app served by the Schuly server (PKCE).",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "protocol": "openid-connect",
+      "rootUrl": "${env.SCHULY_WEB_URL}",
+      "baseUrl": "/",
+      "redirectUris": [
+        "/callback"
+      ],
+      "webOrigins": [
+        "+"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "/*"
+      },
+      "defaultClientScopes": [
+        "basic",
+        "groups",
+        "profile",
+        "email",
+        "picture"
+      ],
+      "optionalClientScopes": [
+        "offline_access"
+      ]
+    },
+    {
       "clientId": "schuly-avatar",
       "name": "Schuly Avatar Upload",
       "surrogateAuthRequired": false,
