@@ -2,7 +2,9 @@
 
 [![Release](https://img.shields.io/github/v/release/schulydev/SchulyKeycloak)](https://github.com/schulydev/SchulyKeycloak/releases)
 [![Build & publish](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml/badge.svg)](https://github.com/schulydev/SchulyKeycloak/actions/workflows/docker-publish-release.yaml)
-[![Documentation](https://img.shields.io/badge/docs-docs.schuly.dev-3da8ff)](https://docs.schuly.dev/SchulyKeycloak/)
+
+> [!WARNING]
+> **Retired.** Schuly no longer uses Keycloak: [SchulyServer](https://github.com/schulydev/SchulyServer) now handles sign-in itself. This repo is archived and read-only.
 
 Schuly's own [Keycloak](https://www.keycloak.org/) image - the production identity
 provider for Schuly. It bakes a [Keycloakify](https://keycloakify.dev) login theme, a
